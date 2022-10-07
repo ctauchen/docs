@@ -33,13 +33,7 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: {
-          path: 'calico',
-          routeBasePath: 'calico',
-          sidebarPath: require.resolve('./sidebars-calico.js'),
-          editUrl: 'https://github.com/tigera/docs/',
-          beforeDefaultRemarkPlugins: [variablesPlugin, componentImagePlugin],
-        },
+        docs: false,
         blog: false,
         theme: {
           customCss: [
@@ -67,6 +61,7 @@ const config = {
             label: 'Calico',
             type: 'docSidebar',
             sidebarId: 'calicoSidebar',
+            docsPluginId: 'calico',
             position: 'left',
           },
           {
@@ -168,6 +163,18 @@ const config = {
     }),
   plugins: [
     'docusaurus-plugin-sass',
+    [
+      '@docusaurus/plugin-content-docs',
+      /** @type {import('@docusaurus/plugin-content-docs').Options} */
+      {
+        id: 'calico',
+        path: 'calico',
+        routeBasePath: 'calico',
+        editCurrentVersion: true,
+        sidebarPath: require.resolve('./sidebars-calico.js'),
+        beforeDefaultRemarkPlugins: [variablesPlugin, componentImagePlugin],
+      },
+    ],
     [
       '@docusaurus/plugin-content-docs',
       /** @type {import('@docusaurus/plugin-content-docs').Options} */
