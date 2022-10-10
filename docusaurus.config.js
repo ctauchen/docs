@@ -33,7 +33,11 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        docs: false,
+        // TODO: try to find a way to not specify a default instance
+        docs: {
+          path: 'default',
+          sidebarPath: false,
+        },
         blog: false,
         theme: {
           customCss: [
@@ -77,6 +81,11 @@ const config = {
             sidebarId: 'calicoCloudSidebar',
             docsPluginId: 'calico-cloud',
             position: 'left',
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+            docsPluginId: 'calico',
           },
           {
             label: 'Tigera',

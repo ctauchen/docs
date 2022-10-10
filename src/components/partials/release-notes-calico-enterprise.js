@@ -59,7 +59,7 @@ export default function ReleaseNotesCalicoEnterprise() {
                 <tr key={componentName}>
                   <td>{componentName}</td>
                   <td>
-                    <Link href={`/release-notes/${componentUrl(componentName, release, prodname)}`}>
+                    <Link href={`/release-notes/${componentUrl(componentName, release)}`}>
                       {release.components[componentName].version}
                     </Link>
                   </td>

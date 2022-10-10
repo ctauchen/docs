@@ -5,7 +5,9 @@ import Link from '@docusaurus/Link';
 import { cloud, enterprise, openSource, global } from '@site/variables';
 import { toKebab } from '../utils/formatters';
 
-const { orchestrators } = global;
+// TODO: split component by product and import variables correctly
+// const { orchestrators } = global;
+const orchestrators = {};
 
 function NodeRequirementsOSS(props) {
   return (
@@ -204,7 +206,11 @@ function NotesOSS(props) {
           <p>
             Many Linux distributions, such as most of the above, include NetworkManager. By default, NetworkManager does
             not allow {props.prodname} to manage interfaces. If your nodes have NetworkManager, complete the steps in{' '}
-            <Link href={`/docs/${toKebab(props.prodname)}/maintenance/troubleshoot/troubleshooting#configure-networkmanager`}>
+            <Link
+              href={`/docs/${toKebab(
+                props.prodname
+              )}/maintenance/troubleshoot/troubleshooting#configure-networkmanager`}
+            >
               Preventing NetworkManager from controlling {props.prodname} interfaces
             </Link>{' '}
             before installing {props.prodname}.
@@ -221,7 +227,8 @@ function NotesOSS(props) {
         <Admonition type='note'>
           <p>
             If a host firewall is needed, it can be configured by {props.prodname} HostEndpoint and GlobalNetworkPolicy.
-            More information about configuration at <Link href={`/docs/${toKebab(props.prodname)}/security/hosts`}>Security for host</Link>.
+            More information about configuration at{' '}
+            <Link href={`/docs/${toKebab(props.prodname)}/security/hosts`}>Security for host</Link>.
           </p>
         </Admonition>
       </div>
