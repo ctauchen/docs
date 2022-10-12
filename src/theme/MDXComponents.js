@@ -1,7 +1,7 @@
 import React from 'react';
 
 import MDXComponents from '@theme-original/MDXComponents';
-import GeekDetails from '@site/src/components/partials/geek-details';
+import GeekDetails from '@site/src/components/partials/GeekDetails';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import { useLocation } from '@docusaurus/router';
 
@@ -23,7 +23,9 @@ const resolveComponent = (componentName) => {
 
     let Component = () => '';
     const isNext = maybeVersion === 'next';
-    if (isNext) {
+    const noVersions = !versions || !versions.length;
+
+    if (isNext || noVersions) {
       Component = require(`@site/${prodnamedash}/_includes/components/${componentName}`).default;
     } else {
       const isLatest = !versions.some((v) => v.name === maybeVersion);
