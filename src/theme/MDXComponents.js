@@ -37,7 +37,6 @@ const resolveComponent = (componentName) => {
 };
 
 export default {
-  // Re-use the default mapping
   ...MDXComponents,
 
   // all of our partials

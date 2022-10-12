@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Admonition from '@theme/Admonition';
+import Heading from '@theme/Heading';
 import Link from '@docusaurus/Link';
 import { cloud, enterprise, openSource, global } from '@site/variables';
 import { toKebab } from '../utils/formatters';
@@ -12,7 +13,12 @@ const orchestrators = {};
 function NodeRequirementsOSS(props) {
   return (
     <>
-      <h2 id='node-requirements'>Node requirements</h2>
+      <Heading
+        as='h2'
+        id='node-requirements'
+      >
+        Node requirements
+      </Heading>
       <ul>
         <li>
           <p>x86-64, arm64, ppc64le, or s390x processor</p>
@@ -63,7 +69,12 @@ function NodeRequirementsOSS(props) {
 function NodeRequirementsEnt(props) {
   return (
     <>
-      <h2 id='node-requirements'>Node requirements</h2>
+      <Heading
+        as='h2'
+        id='node-requirements'
+      >
+        Node requirements
+      </Heading>
       <ul>
         <li>
           <p>x86-64 processor with at least 2 cores, 8.0GB RAM and 20 GB free disk space</p>
@@ -239,7 +250,12 @@ function NotesOSS(props) {
 function KeyValueStore(props) {
   return (
     <>
-      <h2 id='keyvalue-store'>Key/value store</h2>
+      <Heading
+        as='h2'
+        id='keyvalue-store'
+      >
+        Key/value store
+      </Heading>
       <p>
         {props.prodname} requires a key/value store accessible by all {props.prodname} components.&nbsp;
         {
@@ -269,7 +285,12 @@ function KeyValueStore(props) {
 function NetworkRequirementsOSS(props) {
   return (
     <>
-      <h2 id='network-requirements'>Network requirements</h2>
+      <Heading
+        as='h2'
+        id='network-requirements'
+      >
+        Network requirements
+      </Heading>
       <p>Ensure that your hosts and firewalls allow the necessary traffic based on your configuration.</p>
       <table style={{ width: '100%' }}>
         <colgroup>
@@ -389,17 +410,16 @@ function NetworkRequirementsOSS(props) {
           )}
         </tbody>
       </table>
-      {props.orch === orchestrators.Kubernetes ||
-        (props.orch === orchestrators.OpenShift && (
-          <p>
-            *{' '}
-            <em>
-              The value passed to kube-apiserver using the <code>--secure-port</code> flag. If you cannot locate this,
-              check the <code>targetPort</code> value returned by
-              <code>kubectl get svc kubernetes -o yaml</code>.
-            </em>
-          </p>
-        ))}
+      {(props.orch === orchestrators.Kubernetes || props.orch === orchestrators.OpenShift) && (
+        <p>
+          *{' '}
+          <em>
+            The value passed to kube-apiserver using the <code>--secure-port</code> flag. If you cannot locate this,
+            check the <code>targetPort</code> value returned by
+            <code>kubectl get svc kubernetes -o yaml</code>.
+          </em>
+        </p>
+      )}
       {props.orch === orchestrators.OpenStack && (
         <p>
           *{' '}
@@ -415,7 +435,12 @@ function NetworkRequirementsOSS(props) {
 function NetworkRequirementsEnt(props) {
   return (
     <>
-      <h2 id='network-requirements'>Network requirements</h2>
+      <Heading
+        as='h2'
+        id='network-requirements'
+      >
+        Network requirements
+      </Heading>
       <p>
         Ensure that your hosts and firewalls allow the necessary traffic based on your configuration. See{' '}
         <Link href={'/docs/calico-enterprise/reference/architecture/overview'}>Component architecture</Link> to view the
@@ -591,19 +616,18 @@ function NetworkRequirementsEnt(props) {
           </tr>
         </tbody>
       </table>
-      {props.orch === orchestrators.Kubernetes ||
-        (props.orch === orchestrators.OpenShift && (
-          <>
-            <p>
-              *{' '}
-              <em>
-                The value passed to kube-apiserver using the <code>--secure-port</code>
-                flag. If you cannot locate this, check the <code>targetPort</code> value returned by &nbsp;
-                <code>kubectl get svc kubernetes -o yaml</code>.
-              </em>
-            </p>
-          </>
-        ))}
+      {(props.orch === orchestrators.Kubernetes || props.orch === orchestrators.OpenShift) && (
+        <>
+          <p>
+            *{' '}
+            <em>
+              The value passed to kube-apiserver using the <code>--secure-port</code>
+              flag. If you cannot locate this, check the <code>targetPort</code> value returned by &nbsp;
+              <code>kubectl get svc kubernetes -o yaml</code>.
+            </em>
+          </p>
+        </>
+      )}
       {props.orch === orchestrators.OpenStack && (
         <p>
           *{' '}
@@ -619,7 +643,12 @@ function NetworkRequirementsEnt(props) {
 function Privileges(props) {
   return (
     <>
-      <h2 id='privileges'>Privileges</h2>
+      <Heading
+        as='h2'
+        id='privileges'
+      >
+        Privileges
+      </Heading>
       <p>
         Ensure that {props.prodname} has the <code>CAP_SYS_ADMIN</code> privilege.
       </p>
