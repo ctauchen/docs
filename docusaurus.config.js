@@ -30,7 +30,7 @@ const config = {
   scripts: [
     {
       src: "https://widget.kapa.ai/kapa-widget.bundle.js",
-      "data-website-id": "578b0d26-ff67-42e3-b465-5839865a7471",
+      "data-website-id": "4b4bbcee-986a-478e-beb6-73605311953a",
       "data-project-name": "Calico",
       "data-project-color": "#F89C1D",
       "data-project-logo":
@@ -42,6 +42,7 @@ const config = {
       "data-modal-border-radius": "6px",
       "data-button-box-shadow": "2px 2px 8px rgba(0, 0, 0, 0.2)",
       "data-modal-header-bg-color": "#FFFFFF",
+      "data-search-mode-enabled": true,
       async: true,
     },
   ],
