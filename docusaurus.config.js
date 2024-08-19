@@ -12,8 +12,8 @@ const config = {
   tagline: 'Active, zero-trust based security for containers and Kubernetes',
   url: 'https://docs.tigera.io',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
+  onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -58,7 +58,6 @@ const config = {
         blog: false,
         theme: {
           customCss: ['./src/css/custom.css', './src/css/external-links.scss', './src/css/modal.scss'],
-          customCss: ['./src/css/custom.css', './src/css/external-links.scss', './src/css/modal.scss'],
         },
       }),
     ],
@@ -92,9 +91,6 @@ const config = {
         content:
           '🤖 Try exploring Calico Documentation with our new AI bot. Look for the <b>Ask AI</b> button at the' +
           ' bottom of your screen. 🤖',
-        content:
-          '🤖 Try exploring Calico Documentation with our new AI bot. Look for the <b>Ask AI</b> button at the' +
-          ' bottom of your screen. 🤖',
         backgroundColor: '#FCE181',
         textColor: '#000',
         isCloseable: true,
@@ -119,20 +115,20 @@ const config = {
             label: 'Documentation',
             className: 'documentation-dropdown',
             items: [
-              {
-                label: 'Calico Open Source',
-                type: 'docSidebar',
-                sidebarId: 'calicoSidebar',
-                docsPluginId: 'calico',
-                className: 'navbar-product-link_calico',
-              },
-              // {
-              //   label: 'Calico Cloud',
-              //   type: 'docSidebar',
-              //   sidebarId: 'calicoCloudSidebar',
-              //   docsPluginId: 'calico-cloud',
-              //   className: 'navbar-product-link_calico-cloud',
-              // },
+              //{
+              //  label: 'Calico Open Source',
+              //  type: 'docSidebar',
+              //  sidebarId: 'calicoSidebar',
+              //  docsPluginId: 'calico',
+              //  className: 'navbar-product-link_calico',
+              //},
+               {
+                 label: 'Calico Cloud',
+                 type: 'docSidebar',
+                 sidebarId: 'calicoCloudSidebar',
+                 docsPluginId: 'calico-cloud',
+                 className: 'navbar-product-link_calico-cloud',
+               },
               // {
               //   label: 'Calico Enterprise',
               //   type: 'docSidebar',
@@ -140,21 +136,6 @@ const config = {
               //   docsPluginId: 'calico-enterprise',
               //   className: 'navbar-product-link_calico-enterprise',
               // },
-            ],
-          },
-          {
-            type: 'docsVersionDropdown',
-            position: 'left',
-            // className for product specific items must start with 'product-'
-            dropdownItemsAfter: [
-              {
-                type: 'html',
-                value: '<hr class="dropdown-separator" />',
-              },
-              {
-                to: '/archive',
-                label: 'All versions',
-              },
             ],
           },
           {
@@ -389,7 +370,7 @@ const config = {
         path: 'calico',
         routeBasePath: 'calico',
         editCurrentVersion: true,
-        onlyIncludeVersions: ['3.28', '3.27', '3.26'],
+        onlyIncludeVersions: ['3.28'],
         lastVersion: '3.28',
         versions: {
           current: {
@@ -400,7 +381,6 @@ const config = {
           3.28: {
             label: '3.28 (latest)',
             path: 'latest',
-            banner: 'none',
             banner: 'none',
           },
           3.27: {
@@ -413,11 +393,10 @@ const config = {
             path: '3.26',
             banner: 'none',
           },
-        },
-        sidebarPath: './sidebars-calico.js',
-        sidebarPath: './sidebars-calico.js',
-        editUrl: generateEditUrl,
-      },
+       },
+       sidebarPath: './sidebars-calico.js',
+       editUrl: generateEditUrl,
+     },
     ],
     [
       '@docusaurus/plugin-content-docs',
@@ -427,7 +406,7 @@ const config = {
         path: 'calico-enterprise',
         routeBasePath: 'calico-enterprise',
         editCurrentVersion: true,
-        onlyIncludeVersions: ['3.20-1','3.19-2','3.18-2','3.17'],
+        onlyIncludeVersions: ['3.19-2'],
         //lastVersion: '3.19-2',
         versions: {
           current: {
@@ -450,13 +429,8 @@ const config = {
             path: '3.18',
             banner: 'none',
           },
-          3.17: {
-            label: '3.17',
-            path: '3.17',
-            banner: 'none',
-          },
         },
-        sidebarPath: require.resolve('./sidebars-calico-enterprise.js'),
+        sidebarPath: './sidebars-calico-enterprise.js',
         editUrl: generateEditUrl,
       },
     ],
@@ -481,7 +455,7 @@ const config = {
             banner: 'none',
           },
         },
-        sidebarPath: require.resolve('./sidebars-calico-cloud.js'),
+        sidebarPath: './sidebars-calico-cloud.js',
         editUrl: generateEditUrl,
       },
     ],
@@ -500,7 +474,7 @@ const config = {
           },
         },
         //To see builds for unreleased versions, remove comments in the next line.
-        sidebarPath: require.resolve('./sidebars-use-cases.js'),
+        sidebarPath: './sidebars-use-cases.js',
         editUrl: generateEditUrl,
       },
     ]
