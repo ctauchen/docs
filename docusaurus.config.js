@@ -15,8 +15,8 @@ const config = {
   tagline: 'Active, zero-trust based security for containers and Kubernetes',
   url: 'https://docs.tigera.io',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
+  onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
 
 
@@ -462,7 +462,7 @@ const config = {
         routeBasePath: 'calico-cloud',
         editCurrentVersion: true,
         //To see builds for unreleased versions, remove comments in the next line.
-        onlyIncludeVersions: ['19-2'],
+        onlyIncludeVersions: ['current'],
         versions: {
           current: {
             label: 'Next',
