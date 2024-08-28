@@ -2,26 +2,15 @@
 description: Prepare your cluster to install Calico CLoud.
 ---
 
-import variables from '@site/calico-cloud/variables';
-
 # Prepare your cluster for Calico Cloud
 
-Intro material
+Get your cluster ready to connect to Calico Cloud.
 
-## Verify cluster is not managed by a Kubernetes reconciler
+## Prerequisites
 
-{{prodname}} cannot be installed on clusters that are managed by any kind of Kubernetes reconciler (for example, Addon-manager). To verify, look for an annotation called `addonmanager.kubernetes.io/mode` on either of the following resources. (The resources may not exist).
+* Your cluster meets the [system requirements](system-requirements.mdx) for Calico Cloud.
 
-- `tigera-operator` deployment in the `tigera-operator` namespace (Installation on AKS may still work if the mode is Reconcile, see [AKS](aks.mdx#verify-addonmanager-is-compatible) for an additional check.)
-- `calico-node` daemonset in the `kube-system` namespace
-
-If the following command finds addonmanager on either of the resources, then Addon-manager is being used. Find a different cluster to use.
-
-```bash
-kubectl get <type> -n <namespace> <resource-name> -o yaml | grep ' addonmanager.kubernetes.io/mode:'
-```
-
-## Prepare your infrastructure to connect to Calico Cloud
+## Allow outbound traffic from pods to Calico Cloud endpoints
 
 Pods running in your Kubernetes cluster must allow outbound traffic to the following endpoints:
 
@@ -37,4 +26,184 @@ For each node, Docker must be able to pull images from the following endpoints:
 * `cdn02.quay.io`
 * `us-docker.pkg.dev`
 
-## Do that
+## Confirm that your cluster is not managed by a Kubernetes reconciler
+
+:::tip
+This limitation may not apply to certain AKS clusters with Addon-manager.
+To see whether your you can install Calico Cloud on your AKS cluster with Addon-manager, see [Verify AddonManager is compatible on AKS cluster](#verify-addonmanager-AKS)
+:::
+
+Calico Cloud cannot be installed on clusters that are managed by any kind of Kubernetes reconciler (for example, Addon-manager).
+To verify, look for an annotation called `addonmanager.kubernetes.io/mode` on either of the following resources. (The resources may not exist).
+
+- `tigera-operator` deployment in the `tigera-operator` namespace (Installation on AKS may still work if the mode is Reconcile, see [AKS](aks.mdx#verify-addonmanager-is-compatible) for an additional check.)
+- `calico-node` daemonset in the `kube-system` namespace
+
+If the following command finds addonmanager on either of the resources, then Addon-manager is being used. Find a different cluster to use.
+
+```bash
+kubectl get <type> -n <namespace> <resource-name> -o yaml | grep ' addonmanager.kubernetes.io/mode:'
+```
+
+
+## Optional: Verify settings for your managed Kubernetes service
+
+Although {{prodname}} checks that your cluster meets [System requirements](system-requirements.mdx), verifying now can save you time troubleshooting.
+
+### Verify settings for EKS
+
+#### Your platform user account has sufficient IAM permissions
+
+Verify that your platform user account has IAM permissions to create Kubernetes ClusterRoles, ClusterRoleBindings, Deployments, Service Accounts, and Custom Resource Definitions.
+The easiest way to grant permissions is to assign the "Kubernetes Service Cluster Admin Role” to your platform user account.
+For help, see [Identity and access management for Amazon EKS](https://docs.aws.amazon.com/eks/latest/userguide/security-iam.html).
+
+### Verify settings for AKS
+
+#### Your platform user account has sufficient IAM permissions
+
+Verify that your platform user account has IAM permissions to create Kubernetes ClusterRoles, ClusterRoleBindings, Deployments, Service Accounts, and Custom Resource Definitions.
+The easiest way to grant permissions is to assign the "Kubernetes Service Cluster Admin Role” to your platform user account.
+For help, see [AKS access control](https://docs.microsoft.com/en-us/azure/aks/control-kubeconfig-access).
+
+#### Your Linux node pools don't have taints applied
+
+Hybrid clusters on AKS may have taints applied to Linux nodes that prevent {{prodname}} from scheduling pods on those nodes.
+These taints must be removed before you connect your cluster to {{prodname}}.
+
+You can check whether any node pools in your cluster have taints by running the following command:
+
+```bash
+az aks nodepool list --resource-group <group-name> --cluster-name <cluster-name> --query "[].{name:name nodeTaints:nodeTaints}"
+```
+
+Remove any taints in the Linux node pools by running the following command:
+
+```bash
+az aks nodepool update --resource-group <group-name> --cluster-name <cluster-name> --name <nodepool-name> --node-taints ""
+```
+
+#### Your cluster has a compatible CNI and network policy configuration
+
+Check that you're using a supported CNI and network policy configuration by running the following command on your AKS cluster:
+
+```bash
+ az aks show --query 'networkProfile'
+```
+
+You must have one of the following combinations of values for`networkPlugin` and `networkPolicy`:
+
+- `"networkPlugin": "none"` and `"networkPolicy": null`
+- `"networkPlugin": "azure"` and `"networkPolicy": null`
+- `"networkPlugin": "azure"` and `"networkPolicy": "calico"`
+
+#### Your cluster is running in transparent mode
+
+Verify that transparent mode is being used by running one of the following commands:
+
+```bash
+cat /etc/cni/net.d/*
+```
+
+OR
+
+```bash
+az vmss run-command invoke -g <resource-group> -n <vmss-name> --scripts "cat /etc/cni/net.d/*" --command-id RunShellScript --instance-id 0 --query 'value[0].message'
+```
+
+If the Azure CNI is enabled, the output should include `"mode": "transparent"`.
+
+For help in the Azure portal, see [Azure CNI](https://docs.microsoft.com/en-us/azure/aks/configure-azure-cni) in [transparent mode](https://docs.microsoft.com/en-us/azure/aks/faq#what-is-azure-cni-transparent-mode-vs-bridge-mode).
+
+#### Verify AddonManager is compatible on AKS cluster {#verify-addonmanager-AKS}
+
+If the AKS cluster already has Calico installed and is managed by AKS it may still be compatible with {{prodname}}.
+If output from the following command includes "EnsureExists" then the install is compatible with {{prodname}}.
+
+```bash
+kubectl get CustomResourceDefinition installations.operator.tigera.io -o yaml | grep ' addonmanager.kubernetes.io/mode:'
+```
+
+:::note
+
+If the command output does not include "EnsureExists" and you are on a recent version of AKS your cluster might still be compatible.
+Please click the question icon in Manager UI under the user icon in the upper right to get help from Support:
+
+![contact-support](/img/calico-cloud/contact-support.png)
+
+:::
+
+:::warning
+
+If your cluster already has Calico installed by AKS and managed by AddonManager, the standard [uninstall](../operations/disconnect.mdx)
+is not supported. You will need to reach out to support to create a plan to uninstall {{prodname}}.
+
+:::
+
+### Verify settings for GKE
+
+#### Your platform user account has sufficient IAM permissions
+
+Verify that your platform user account has IAM permissions to create Kubernetes ClusterRoles, ClusterRoleBindings, Deployments, Service Accounts, and Custom Resource Definitions.
+The easiest way to grant permissions is to assign the "Kubernetes Service Cluster Admin Role” to your platform user account.
+For help, see [GKE access control](https://cloud.google.com/kubernetes-engine/docs/how-to/role-based-access-control).
+
+#### Your cluster's intranode visiblity is set to `Enabled`
+
+Verify that intranode visibility is set to `Enabled` by running the following command:
+
+```bash
+gcloud container clusters describe <cluster-name> --flatten networkConfig.enableIntraNodeVisibility
+```
+
+#### Your cluster's network policy is set to `Disabled`
+
+Verify that network policy is set to Disabled by running the following command:
+
+```bash
+gcloud container clusters describe <cluster-name> --flatten addonsConfig.networkPolicyConfig.disabled
+```
+
+#### Your cluster's Dataplane V2 is set to `null`
+
+Verify that Dataplan V2 is set to `null` by running the following command:
+
+```bash
+gcloud container clusters describe <cluster-name> --flatten networkConfig.datapathProvider
+```
+
+### Verify settings for RKE2
+
+#### Your platform user account has sufficient IAM permissions
+
+Verify that your platform user account has IAM permissions to create Kubernetes ClusterRoles, ClusterRoleBindings, Deployments, Service Accounts, and Custom Resource Definitions.
+The easiest way to grant permissions is to assign the "Kubernetes Service Cluster Admin Role” to your platform user account.
+For help, see [RKE access control](https://rancher.com/docs/rancher/v2.x/en/admin-settings/rbac).
+
+**Unsupported**
+
+- [CIS hardened clusters](https://docs.rke2.io/security/hardening_guide)
+
+#### Verify RKE2 settings
+
+1. Verify you have a compatible [RKE2 cluster](https://docs.rke2.io/), with 2.6.5 or later
+
+1. On your RKE2 cluster, configure the plugin setting to: `no CNI plugin` using any of the following methods. For help, see [Configure your cluster with a CNI plugin](https://docs.rke2.io/install/configuration).
+
+   :::note
+
+   If you have a Calico open source cluster, you must manually install Calico before you can connect it to {{prodname}}. Why? RKE2 clusters can be created without a CNI, and {{prodname}} requires a CNI.
+
+   :::
+
+   - RKE2 CLI: `--cni none`
+
+   - Installation script: `RKE2_CNI=none`
+
+   - [Configuration file](https://docs.rke2.io/install/configuration#configuration-file): `cni: none`
+
+## Next steps
+
+* Install 1
+* Install 2
+* Install 3
