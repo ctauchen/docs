@@ -36,7 +36,7 @@ const FelixConfig = ({ name }) => {
                 <tbody>
                 <tr>
                   <td>Schema</td>
-                  <td dangerouslySetInnerHTML={{ __html: field.StringSchemaHTML }} />
+                  <td dangerouslySetInnerHTML={{ __html: field.YAMLSchemaHTML }} />
                 </tr>
                 <tr>
                   <td>Default</td>
