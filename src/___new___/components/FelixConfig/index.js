@@ -21,14 +21,11 @@ const FelixConfig = ({ name }) => {
   return (
     <div>
       {group ? (
-        // Ensure 'Fields' is defined and an array before mapping
         Array.isArray(group.Fields) && group.Fields.length > 0 ? (
           group.Fields.map((field, index) => (
             <div key={index}>
               <h5><code>{field.NameYAML}</code></h5>
-              <p>{field.Description}</p>
-
-              {/* Render a markdown-like table with hardcoded values */}
+              <p dangerouslySetInnerHTML={{ __html: field.DescriptionHTML }} />
               <table>
                 <thead>
                 <tr>
@@ -39,15 +36,21 @@ const FelixConfig = ({ name }) => {
                 <tbody>
                 <tr>
                   <td>Schema</td>
-                  <td>{field.StringSchema}</td>
+                  <td dangerouslySetInnerHTML={{ __html: field.StringSchemaHTML }} />
                 </tr>
                 <tr>
-                  <td>StringDefault</td>
-                  <td><code>{field.StringDefault}</code></td>
-                </tr>
-                <tr>
-                  <td>StringParsed</td>
-                  <td><code>{field.StringParsed}</code></td>
+                  <td>Default</td>
+                  <td>
+                    {field.StringDefault === "" ? (
+                      "none"
+                    ) : field.GoType === '*v1.Duration' ? (
+                      <>
+                        <code>{field.StringDefault}</code> (<code>{field.ParsedDefault}</code>)
+                      </>
+                    ) : (
+                      <code>{field.StringDefault}</code>
+                    )}
+                  </td>
                 </tr>
                 </tbody>
               </table>
