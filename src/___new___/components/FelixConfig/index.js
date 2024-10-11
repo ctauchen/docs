@@ -24,7 +24,7 @@ const FelixConfig = ({ name }) => {
         Array.isArray(group.Fields) && group.Fields.length > 0 ? (
           group.Fields.map((field, index) => (
             <div key={index}>
-              <h5><code>{field.NameYAML}</code></h5>
+              <h5 id={`${field.NameYAML}`}><code>{field.NameYAML}</code></h5>
               <p dangerouslySetInnerHTML={{ __html: field.DescriptionHTML }} />
               <table>
                 <thead>
@@ -41,8 +41,8 @@ const FelixConfig = ({ name }) => {
                 <tr>
                   <td>Default</td>
                   <td>
-                    {field.StringDefault === "" ? (
-                      "none"
+                    {field.StringDefault === '' ? (
+                      'none'
                     ) : field.GoType === '*v1.Duration' ? (
                       <>
                         <code>{field.StringDefault}</code> (<code>{field.ParsedDefault}</code>)
