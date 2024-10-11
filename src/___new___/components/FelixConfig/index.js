@@ -38,12 +38,8 @@ const FelixConfig = ({ name }) => {
                 </thead>
                 <tbody>
                 <tr>
-                  <td>Default</td>
-                  <td><p>{field.StringDefault}</p></td>
-                </tr>
-                <tr>
                   <td>Schema</td>
-                  <td>{field.StringSchema}></td>
+                  <td>{field.StringSchema}</td>
                 </tr>
                 <tr>
                   <td>StringDefault</td>
