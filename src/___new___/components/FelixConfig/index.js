@@ -25,29 +25,33 @@ const FelixConfig = ({ name }) => {
         Array.isArray(group.Fields) && group.Fields.length > 0 ? (
           group.Fields.map((field, index) => (
             <div key={index}>
-              <h4><code>{field.NameConfigFile}</code></h4>
+              <h5><code>{field.NameYAML}</code></h5>
               <p>{field.Description}</p>
 
               {/* Render a markdown-like table with hardcoded values */}
               <table>
                 <thead>
                 <tr>
-                  <th>thing1</th>
-                  <th>thing2</th>
+                  <th>Description</th>
+                  <th>Value</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                  <td>Placeholder A1</td>
-                  <td>Placeholder B1</td>
+                  <td>Default</td>
+                  <td><p>{field.StringDefault}</p></td>
                 </tr>
                 <tr>
-                  <td>Placeholder A2</td>
-                  <td>Placeholder B2</td>
+                  <td>Schema</td>
+                  <td>{field.StringSchema}></td>
                 </tr>
                 <tr>
-                  <td>Placeholder A3</td>
-                  <td>Placeholder B3</td>
+                  <td>StringDefault</td>
+                  <td><code>{field.StringDefault}</code></td>
+                </tr>
+                <tr>
+                  <td>StringParsed</td>
+                  <td><code>{field.StringParsed}</code></td>
                 </tr>
                 </tbody>
               </table>
