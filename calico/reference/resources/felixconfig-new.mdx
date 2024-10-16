@@ -5,7 +5,7 @@ toc_max_heading_level: 4
 
 import FelixConfig from '/src/___new___/components/FelixConfig';
 
-# Felix configuration NEW FOR TESTING
+# Felix configuration NEW
 
 A [Felix](../architecture/overview.mdx#felix) configuration resource (`FelixConfiguration`) represents Felix configuration options for the cluster.
 
@@ -26,83 +26,92 @@ spec:
 
 ## Felix configuration definition
 
+### Metadata
+
+| Field | Description                                               | Accepted Values                                     | Schema |
+| ----- | --------------------------------------------------------- | --------------------------------------------------- | ------ |
+| name  | Unique name to describe this resource instance. Required. | Alphanumeric string with optional `.`, `_`, or `-`. | string |
+
+- {{prodname}} automatically creates a resource named `default` containing the global default configuration settings for Felix. You can use [calicoctl](../calicoctl/overview.mdx) to view and edit these settings
+- The resources with the name `node.<nodename>` contain the node-specific overrides, and will be applied to the node `<nodename>`. When deleting a node the FelixConfiguration resource associated with the node will also be deleted.
+
 ### Spec
 
 #### Datastore connection
 
-<FelixConfig name="Process: Feature detection/overrides" />
+<FelixConfig configType='yaml' name="Process: Feature detection/overrides" />
 
 #### Process: Feature detection/overrides
 
-<FelixConfig name="Process: Feature detection/overrides" />
+<FelixConfig configType='yaml' name="Process: Feature detection/overrides" />
 
 #### Process: Go runtime
 
-<FelixConfig name="Process: Go runtime" />
+<FelixConfig configType='yaml' name="Process: Go runtime" />
 
 #### Process: Health port and timeouts
 
-<FelixConfig name="Process: Health port and timeouts" />
+<FelixConfig configType='yaml' name="Process: Health port and timeouts" />
 
 #### Process: Logging
 
-<FelixConfig name="Process: Logging" />
+<FelixConfig configType='yaml' name="Process: Logging" />
 
 #### Process: Prometheus metrics
 
-<FelixConfig name="Process: Prometheus metrics" />
+<FelixConfig configType='yaml' name="Process: Prometheus metrics" />
 
 #### Dataplane: Common
 
-<FelixConfig name="Dataplane: Common" />
+<FelixConfig configType='yaml' name="Dataplane: Common" />
 
 #### Dataplane: iptables
 
-<FelixConfig name="Dataplane: iptables" />
+<FelixConfig configType='yaml' name="Dataplane: iptables" />
 
 #### Dataplane: nftables
 
-<FelixConfig name="Dataplane: nftables" />
+<FelixConfig configType='yaml' name="Dataplane: nftables" />
 
 #### Dataplane: eBPF
 
-<FelixConfig name="Dataplane: eBPF" />
+<FelixConfig configType='yaml' name="Dataplane: eBPF" />
 
 #### Dataplane: Windows
 
-<FelixConfig name="Dataplane: Windows" />
+<FelixConfig configType='yaml' name="Dataplane: Windows" />
 
 #### Dataplane: OpenStack support
 
-<FelixConfig name="Dataplane: OpenStack support" />
+<FelixConfig configType='yaml' name="Dataplane: OpenStack support" />
 
 #### Dataplane: XDP acceleration for iptables dataplane
 
-<FelixConfig name="Dataplane: XDP acceleration for iptables dataplane" />
+<FelixConfig configType='yaml' name="Dataplane: XDP acceleration for iptables dataplane" />
 
 #### Overlay: VXLAN overlay
 
-<FelixConfig name="Overlay: VXLAN overlay" />
+<FelixConfig configType='yaml' name="Overlay: VXLAN overlay" />
 
 #### Overlay: IP-in-IP
 
-<FelixConfig name="Overlay: IP-in-IP" />
+<FelixConfig configType='yaml' name="Overlay: IP-in-IP" />
 
 #### Overlay: Wireguard
 
-<FelixConfig name="Overlay: Wireguard" />
+<FelixConfig configType='yaml' name="Overlay: Wireguard" />
 
 #### AWS integration
 
-<FelixConfig name="AWS integration" />
+<FelixConfig configType='yaml' name="AWS integration" />
 
 #### Debug/test-only (generally unsupported)
 
-<FelixConfig name="Debug/test-only (generally unsupported)" />
+<FelixConfig configType='yaml' name="Debug/test-only (generally unsupported)" />
 
 #### Usage reporting
 
-<FelixConfig name="Usage reporting" />
+<FelixConfig configType='yaml' name="Usage reporting" />
 
 
 ### Metadata
