@@ -61,6 +61,18 @@ This release adds support for Kubernetes 1.36.
 * Image Assurance, Container Threat Detection, and Kibana are removed in this release.
   These features were previously deprecated and are no longer available in $[prodname] 23.
 
+### Updating
+
+* ***Breaking change:*** The `allow-tigera` tier is renamed to `calico-system`.
+  The Tigera Operator moves its own policies into the new tier during the upgrade, but it does not update resources that you created.
+  Before you upgrade, review anything that refers to the tier by name, including:
+  * Network policies that you added to the `allow-tigera` tier.
+  * Tiers that you ordered relative to `allow-tigera`.
+  * RBAC rules that name `allow-tigera` in `resourceNames`.
+  * Dashboards, alerts, and queries that filter on `tier="allow-tigera"`.
+
+  For more information, see [Change calico-system tier behavior](../network-policy/policy-tiers/calico-system.mdx).
+
 <h2 id="june-22-2026">June 22, 2026 (version 22.5.0)</h2>
 
 ### New features and enhancements

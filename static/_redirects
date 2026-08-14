@@ -446,3 +446,7 @@
 /calico-enterprise/3.24/compliance/compliance-reports-cis /calico-enterprise/3.24/release-notes 301
 /calico-enterprise/3.24/reference/resources/compliance-reports/* /calico-enterprise/3.24/reference/resources/ 301
 /calico-enterprise/3.24/reference/resources/globalreport /calico-enterprise/3.24/reference/resources/ 301
+
+# Calico Cloud 23 - allow-tigera tier renamed to calico-system
+/calico-cloud/network-policy/policy-tiers/allow-tigera /calico-cloud/network-policy/policy-tiers/calico-system 301
+/calico-cloud/next/network-policy/policy-tiers/allow-tigera /calico-cloud/next/network-policy/policy-tiers/calico-system 301
