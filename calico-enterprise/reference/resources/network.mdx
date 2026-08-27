@@ -191,7 +191,7 @@ A contiguous, inclusive range of VLAN IDs.
 | routes | Additional routes to program into the workload's routing table for this interface, beyond the connected route for the subnet.                                                                                       |                 | List of [L2Route](#l2route)     |
 
 $[prodname] does not assign the network address, the broadcast address, or the gateway address of a subnet.
-The gateway address is the `nextHop` of a route declared on that subnet, so a subnet with no routes has no reserved gateway address.
+A gateway address is the `nextHop` of a route declared on that subnet, so each distinct `nextHop` is reserved, and a subnet with no routes has no reserved gateway address.
 On a `/31` or `/32` no addresses are reserved, because those prefixes have no network or broadcast address to withhold.
 
 ### L2Route
