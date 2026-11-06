@@ -1,7 +1,89 @@
 # Agent instructions
 
 This file is for AI coding agents working in this repository.
-For the build, the product directories, and other repository conventions, read [.github/copilot-instructions.md](.github/copilot-instructions.md).
+The repository is the source for docs.tigera.io: Calico Open Source, Calico Enterprise, and Calico Cloud, built with Docusaurus 3.
+[README.md](README.md) covers setup, every make target, the project structure, and troubleshooting.
+Read it instead of expecting that here.
+
+## Verify your work
+
+Run `corepack enable` and `yarn install` once.
+The `make` targets do that for you.
+
+- `yarn build` builds every released version in about four minutes and fails on a broken internal link.
+- `make build-next` also builds the unreleased `calico/`, `calico-enterprise/`, and `calico-cloud/` trees.
+  Use it when you changed those.
+- `yarn test:components` runs the Jest unit tests.
+  It also fails when a lifecycle notice on a page disagrees with `data/feature-status.yaml`.
+- `yarn jest <path-to-test-file>` runs one test file.
+- `make vale PRODUCT=calico` lints the prose in one product tree with Vale.
+  It needs Docker, and it flags every `$[variable]` as a spelling error, so read past those.
+  CI masks the variables before it runs the same check.
+- `make test` serves an existing `build/` directory and crawls it for broken links.
+
+Before you say a change is done, run the build that covers the trees you changed, and say what you ran.
+
+## Where changes go
+
+Every version lives on `main`.
+There are no version branches.
+
+- `calico/`, `calico-enterprise/`, and `calico-cloud/` are the next, unreleased version.
+  New and changed features go there.
+- `*_versioned_docs/version-X/` trees are released versions.
+  A fix to released docs goes in each affected version tree, and in the unreleased tree if the problem is still there.
+- Features usually flow from Open Source to Enterprise to Cloud.
+  When you document an Open Source feature, check whether the Enterprise and Cloud trees need the same change.
+  `calicoctl` is not used with Calico Cloud.
+- `use-cases/` holds pages that span products.
+- `contributors/` is guidance for people who write the docs.
+  It is not built into the site.
+
+## Writing conventions
+
+- `$[name]` tokens are variables, defined in the `variables.js` at the root of each product or version tree.
+  Use them for product names, versions, and URLs.
+  Don't use them in front matter, where substitution is not reliable.
+- Partials start with `_` and live in each tree's `_includes/` directory.
+  The build doesn't render files that start with `_` as pages.
+- Every page sets `content_type` in its front matter to one of the values listed in `docusaurus.config.js`.
+  The build fails on any other value.
+- Technology preview and deprecation notices come from one component.
+  Set `lifecycle_status` in the front matter, or place `<LifecycleNotice>` in the body.
+  Never write that admonition by hand.
+  See [feature-lifecycle-notices.md](contributors/feature-lifecycle-notices.md).
+- Write one sentence per line in prose and in list items.
+  Leave fenced code, tables, and headings as they are.
+  When you edit a page you didn't write, apply this only to the lines you add.
+- Write procedures as numbered steps.
+  Give every section a line under its heading that says what it covers.
+
+## Boundaries
+
+Never:
+
+- Edit `reference/installation/_api.mdx` in any tree.
+  `make autogen` generates it from tigera/operator.
+- Add content for a new feature to a `*_versioned_docs` tree.
+- Restructure an existing page to fit a content type unless the person asks you to.
+- Write a technology preview or deprecation admonition by hand.
+
+Ask first:
+
+- Before you create more than one page for a request.
+- Before you change `variables.js`, `releases.json`, `docusaurus.config.js`, or a `*_versions.json` file.
+- Before you open a pull request.
+
+## Commits and pull requests
+
+- PR title: `DOCS-NNNN: Do something`, where DOCS-NNNN is the Jira ticket.
+- Keep the description short: one sentence on what changed, the Jira link, and links to the changed pages on the deploy preview.
+  Use body text, lists, and links only.
+- Unreleased trees preview at `https://deploy-preview-<PR>--calico-docs-preview-next.netlify.app/<product>/next/<path>`.
+  If many pages changed in the same way, link representative ones.
+- Never name customers.
+  Refer to people by GitHub handle only.
+- A subject matter expert and a docs team member must approve a PR before it merges.
 
 ## Writing a new page
 
